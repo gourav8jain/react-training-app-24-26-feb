@@ -7,5 +7,7 @@ import App1 from './app/App';
 
 // COMPARE REAL AND VIRTUAL DOM
 
-render(<App1/>, // virtual dom
+
+// passing the props into the childs
+render(<App1 color="white"/>, // virtual dom
 document.getElementById("root"));

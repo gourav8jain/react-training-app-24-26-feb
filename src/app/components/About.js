@@ -1,6 +1,7 @@
 
 import React, {Component} from "react";
 import PropTypes from "prop-types";
+import Contact from "./Contact"
 
 export default class About extends Component {
     constructor(props) {
@@ -87,6 +88,7 @@ export default class About extends Component {
                   }
             </ul>
             }
+            <Contact/>
             </div>
         )
     }
