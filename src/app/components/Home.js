@@ -1,70 +1,62 @@
 
-
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
-// THROW AWYA CODE -- BAD
-
+// throw away code
 import store from "../store";
 
 export default class Home extends Component {
     constructor(props) {
         super(props);
-        // state is a keyword
-        //mutable
-        //styate is owned by component
 
-        this.state = {
-            counter: 0,
-            show: true
-        };
-    }
 
-    shouldComponentUpdate(nextProps, nextState) {
-        console.log("shouldComponentUpdate -- Home -- current state", this.state);
-        console.log("shouldComponentUpdate -- Home -- next state", nextState);
-
-        // odd number are getting printed and calling render not even // forceupdate dees not call shouldComponentUpdate()
-        return nextState.counter % 2 == 1;
-    }
-
-    render() {
-        console.log('Home render', this.state.counter);
-        console.log('show', this.state.show);
-        return (
-            <div>
-                <h2>Home</h2>
-                <p>Counter:- {this.state.counter}</p>
-                <button onClick={() => this.increment()}>Increment</button>
-            </div>
-        )
     }
 
     increment() {
-        // // bad approach -- mutating state directly
-        // this.state.counter++;
-        // console.log(this.state.counter);
+        let action = {
+            type: 'INCREMENT',
+            payload: {
+                value: 1
+            }
+        }
+        store.dispatch(action);
+    }
 
-        // // bad call the render using api methods
-
-        // this.forceUpdate();
-
-        // GOOD OPTION -- SET STATE() -- MERGE STATE
-        //SET STATE IS ASYNC
-        console.log("BEFORE SET-STATE", this.state.counter);
-        this.setState({
-            // immutable
-            counter: this.state.counter + 1
-            //counter:1
+    componentDidMount()
+    {
+        // SUBSCRIBE WILLL ALWAYS HAVE NO PARAMETERS AS SUCH
+        this.unsubscribeFunc = store.subscribe(()=>{
+            console.log("home subs called", Math.random());
+            this.forceUpdate();
         })
+    }
 
-        this.setState({
-            // immutable
-            show: !this.state.show
-            //show:false
-        })
-        console.log("AFTER SET-STATE", this.state.counter);
-        console.trace("called");
+    componentWillUnmount()
+    {
+       console.log('unsubscribeFunc -- componentWillUnmount')
+        this.unsubscribeFunc();
+    }
+
+
+    render() {
+        console.log("Home render", );
+        let state = store.getState();
+        let counter = state;
+        //let _this = this;
+
+        return (
+            <div>
+                <h2>Home</h2>
+
+                <p> Counter: {counter}  </p>
+
+
+                <button onClick={() => this.increment()}>
+                    +1
+                </button>
+
+            </div>
+        )
     }
 }
 
