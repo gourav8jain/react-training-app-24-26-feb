@@ -1,39 +1,47 @@
 
-import React, {Component} from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 
 import CartList from "./CartList";
 import CartSummary from "./CartSummary";
- 
+
 export default class Cart extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
-            items: [{id: 1, price: 100, qty: 1, name: 'Product 1'}],
+            items: [{ id: 1, price: 100, qty: 1, name: 'Product 1' }],
             amount: 0, //price * qty of all items
             count: 0, // qty of all items
             flag: false //dummy
         }
+
+        // to avoid calling render in case of pure component as it compares the function as well
+        // this.onRemove2 = (id) => { this.removeItem(id) }
+        // ES6
+        // does the same job of the above
+        //ES 5
+        this.onRemove2 = this.removeItem.bind(this);
+
+        // new bound function = original function binded
+        this.removeItem=this.removeItem.bind(this);
     }
 
-    componentWillMount()
-    {
+    componentWillMount() {
         console.log("component will mount -- cart will mount");
         this.recalculateTotal(this.state.items);
     }
 
-   // will be called when anything would be deleted -- react will take care of that. -- part of deletion life cycle
-    componentDidMount()
-    {
+    // will be called when anything would be deleted -- react will take care of that. -- part of deletion life cycle
+    componentDidMount() {
         console.log("component did mount -- cart did mount");
     }
- 
+
     recalculateTotal(items) {
         let count = 0;
         let amount = 0;
 
-        for (let item of  items) {
+        for (let item of items) {
             count += item.qty;
             amount += item.qty * item.price
         }
@@ -44,7 +52,7 @@ export default class Cart extends Component {
             amount
         })
     }
-    
+
     addItem() {
         let id = Math.ceil(Math.random() * 100000);
         let item = {
@@ -56,18 +64,24 @@ export default class Cart extends Component {
 
         //TODO:
 
-        let newItems=[...this.state.items,item];
+        let newItems = [...this.state.items, item];
         this.setState({
-            items:newItems
+            items: newItems
         });
 
         this.recalculateTotal(newItems);
-         
+
     }
 
     removeItem(id) {
         //TODO:
-         
+
+        let newItems = this.state.items.filter(item => item.id != id);
+        this.setState({
+            items: newItems
+        });
+        this.recalculateTotal(newItems);
+
     }
 
     empty() {
@@ -85,45 +99,50 @@ export default class Cart extends Component {
         })
 
     }
-    
+
     render() {
         console.log("Cart Render");
 
         return (
-            <div> 
-            <h2>Cart</h2>
+            <div>
+                <h2>Cart</h2>
 
-            <button onClick={() => this.addItem() }>
-             Add
+                <button onClick={() => this.addItem()}>
+                    Add
             </button>
 
 
-            <button onClick={() => this.empty() }>
-                Empty
+                <button onClick={() => this.empty()}>
+                    Empty
             </button>
 
-         
 
-            <button onClick={() => this.refresh() }>
-                Refresh
+
+                <button onClick={() => this.refresh()}>
+                    Refresh
             </button>
 
-            <CartList items={this.state.items}
-                      
-            
-            />
+                {/* // onRemove is acting like a property
+                <CartList items={this.state.items}
+                    removeItem={(id) => this.removeItem(id)}
+                /> */}
 
-            <CartSummary amount={this.state.amount} count={this.state.count} />
+                {/* onRemove is acting like a property */}
+                <CartList items={this.state.items}
+                    onRemove={this.removeItem}
+                />
+
+                <CartSummary amount={this.state.amount} count={this.state.count} />
             </div>
         )
     }
-} 
+}
 
 
 Cart.defaultProps = {
-    
+
 }
 
 Cart.propTypes = {
-    
+
 }

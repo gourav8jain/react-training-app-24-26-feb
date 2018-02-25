@@ -1,5 +1,5 @@
 
-import React, {Component} from "react";
+import React, { Component } from "react";
 import PropTypes from "prop-types";
 import Contact from "./Contact"
 
@@ -17,14 +17,14 @@ export default class About extends Component {
 
     getList() {
         let list = [];
-        for(let name of this.state.frameworks) {
+        for (let name of this.state.frameworks) {
             list.push(<li> {name}</li>)
             //list.push(React.createElement('li', null, name));
         }
 
         return list;
     }
-     
+
 
     toggle() {
         this.setState({
@@ -46,59 +46,66 @@ export default class About extends Component {
             name: ''
         })
     }
-    
+
+    componentDidMount() {
+        this.inputElem.focus();
+    }
+
     render() {
         console.log("About render");
 
         return (
-            <div> 
-            <h2>About</h2>
+            <div>
+                <h2>About</h2>
 
-            <input type="text"
-                   value={this.state.value} 
-                   onChange= { (e)=> this.onHandleChange(e) }
-                   
-                   onBlur={ ()=> this.addToList() }
-                   
-                   />
-            
-            <button onClick={ ()=> this.toggle()} 
-            
-                    onMouseEnter={ () => this.setState({highlight: true})}
+                <input type="text"
+                    value={this.state.value}
+                    onChange={(e) => this.onHandleChange(e)}
 
-                    onMouseLeave={ () => this.setState({highlight: false})}
-                    className={this.state.highlight?"success": ""}
-            
-            >
-               {this.state.show? "Hide": "Show"}
-            </button>
+                    onBlur={() => this.addToList()}
 
-             {this.state.show? <p>Shown</p> : <p>Not Shown</p>}   
+                    //  TO WROK WITH THE REAL DOM AND THIS METHOD WILL BE CALLED IN THE COMPONENT DID MOUNT
+                    ref={(elem) => this.inputElem = elem}
+
+                />
+
+                <button onClick={() => this.toggle()}
+
+                    onMouseEnter={() => this.setState({ highlight: true })}
+
+                    onMouseLeave={() => this.setState({ highlight: false })}
+                    className={this.state.highlight ? "success" : ""}
+
+                >
+                    {this.state.show ? "Hide" : "Show"}
+                </button>
+
+                {this.state.show ? <p>Shown</p> : <p>Not Shown</p>}
 
 
-            { this.state.show &&
-            <ul>
-                  {/* {this.getList()}   */}
- 
-                  {
-                      this.state
-                      .frameworks.map((name, index) => (
-                          <li key={name} > {name} </li>
-                      ))
-                  }
-            </ul>
-            }
-            <Contact/>
+                {this.state.show &&
+                    <ul>
+                        {/* {this.getList()}   */}
+
+                        {
+                            this.state
+                                .frameworks.map((name, index) => (
+                                    <li key={name} > {name} </li>
+                                ))
+                        }
+                    </ul>
+                }
+                <Contact />
             </div>
         )
     }
-} 
+}
 
 
 About.defaultProps = {
-    
+
 }
 
 About.propTypes = {
-    
+
 }
