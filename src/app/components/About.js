@@ -95,7 +95,7 @@ export default class About extends Component {
                         }
                     </ul>
                 }
-                <Contact />
+                {/* <Contact /> */}
             </div>
         )
     }

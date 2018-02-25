@@ -2,6 +2,7 @@
 
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
+import {NavLink} from "react-router-dom"
 
 export default class Header extends Component{
     constructor()
@@ -24,6 +25,14 @@ export default class Header extends Component{
                 {/* {Add comments like this} */}
                 {/* {props are immutabe}*/}
                 <h1>{this.props.title}</h1> 
+                <NavLink to="/" exact className="button" activeClassName="success" > Home </NavLink>
+                <NavLink to="/cart" className="button" activeClassName="success" > Cart </NavLink>
+                {/* WE DONT HAVE PRODUCT SO IT WILL SHOW NOTFOUND PAGE */}
+                <NavLink to="/product" className="button" activeClassName="success" > Product </NavLink>
+                <NavLink to="/about" className="button" activeClassName="success" > About </NavLink>
+                <NavLink to="/contact" className="button" activeClassName="success" > Contact </NavLink>
+                
+               
                 </div>
         )
     }
