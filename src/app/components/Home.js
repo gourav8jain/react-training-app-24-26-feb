@@ -3,6 +3,10 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 
+// THROW AWYA CODE -- BAD
+
+import store from "../store";
+
 export default class Home extends Component {
     constructor(props) {
         super(props);
